@@ -1,0 +1,32 @@
+#!/bin/bash
+# Expand the partition and the current root filesystem to its maximum
+# size if it is stored in the last partitiion on the volume.
+# To run it without installation use the following command:
+# bash <(curl -s https://git.jakobsbrunnen.ch/jb/sd_card_mgmt/raw/branch/master/expand_rootfs)
+
+cmd=$(echo $0 | rev | cut -d'/' -f1 | rev)
+[ $(id -u) -ne 0 ] && echo "You must be root to use '$cmd'" && exit 1
+
+echo -e "##### Getting information about root partition"
+root_part="$(findmnt / -o source -n)"
+root_dev="/dev/$(lsblk -no pkname "$root_part")"
+part_info="$(parted -m $root_dev unit B print)"
+part_number=$(echo "$part_info" | grep ext4 | awk -F: '{ print $1 }')
+part_start=$(echo "$part_info" | grep ext4 | awk -F: '{ print substr($2,0,length($2)-1) }')
+last_part_number=$(echo "$part_info" | tail -n 1 | cut -f 1 -d:)
+
+if [ $last_part_number -ne $part_number ]; then
+  whiptail --msgbox "$root_part is not the last partition. Don't know how to expand" 20 60 2
+  exit 1
+fi
+
+# Remove and re-establish the current partition at maximum size while it is mounted
+echo -e "\n##### Resizing the root partition"
+echo -e "d\n${part_number}\nw\n" | fdisk $root_dev >/dev/null
+parted -s $root_dev unit B mkpart primary $part_start 100% >/dev/null
+
+# Resizing the root file system
+echo -e "\n##### Resizing the root file system to match the partition size"
+resize=$(resize2fs -p $root_part)
+
+echo -e "\n##### IMPORTANT: REBOOT THE SYSTEM NOW!"
