@@ -4,8 +4,7 @@
 # To run it without installation use the following command:
 # bash <(curl -s https://raw.githubusercontent.com/mataebi/expand_rootfs/master/expand_rootfs)
 
-cmd=$(echo $0 | rev | cut -d'/' -f1 | rev)
-[ $(id -u) -ne 0 ] && echo "You must be root to use '$cmd'" && exit 1
+[ $(id -u) -ne 0 ] && echo "You must be root to use '$expand_rootfs'" && exit 1
 
 echo -e "##### Getting information about root partition"
 root_part="$(findmnt / -o source -n)"
