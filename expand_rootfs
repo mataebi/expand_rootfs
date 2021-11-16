@@ -21,7 +21,7 @@ fi
 
 # Remove and re-establish the current partition at maximum size while it is mounted
 echo -e "\n##### Resizing the root partition"
-echo -e "d\n${part_number}\nw\n" | fdisk $root_dev >/dev/null
+echo -e "d\n${part_number}\nw\n" | fdisk $root_dev >/dev/null 2>&1
 parted -s $root_dev unit B mkpart primary $part_start 100% >/dev/null
 
 # Resizing the root file system
