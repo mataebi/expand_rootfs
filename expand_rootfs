@@ -2,7 +2,7 @@
 # Expand the partition and the current root filesystem to its maximum
 # size if it is stored in the last partitiion on the volume.
 # To run it without installation use the following command:
-# bash <(curl -s https://git.jakobsbrunnen.ch/jb/sd_card_mgmt/raw/branch/master/expand_rootfs)
+# bash <(curl -s https://raw.githubusercontent.com/mataebi/expand_rootfs/master/expand_rootfs)
 
 cmd=$(echo $0 | rev | cut -d'/' -f1 | rev)
 [ $(id -u) -ne 0 ] && echo "You must be root to use '$cmd'" && exit 1
