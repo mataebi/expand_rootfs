@@ -4,6 +4,8 @@ This script can be run on a device that has been booted with a
 volume (typically an SD card) created from a minimized image
 (e.g. created by `sd2img`)
 
+## Installation
+
 To run this script without the need to install it first use the follwing
 command:
 ```
