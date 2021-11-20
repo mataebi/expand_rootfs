@@ -26,6 +26,6 @@ parted -s $root_dev unit B mkpart primary $part_start 100% >/dev/null
 
 # Resizing the root file system
 echo -e "\n##### Resizing the root file system to match the partition size"
-resize=$(resize2fs -p $root_part)
+resize2fs -p $root_part
 
 echo -e "\n##### IMPORTANT: REBOOT THE SYSTEM NOW!"
