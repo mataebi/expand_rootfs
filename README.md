@@ -9,7 +9,7 @@ volume (typically an SD card) created from a minimized image
 To run this script without the need to install it first use the follwing
 command:
 ```
-bash <(curl -s https://raw.githubusercontent.com/mataebi/expand_rootfs/master/expand_rootfs)
+curl -s https://raw.githubusercontent.com/mataebi/expand_rootfs/master/expand_rootfs | sudo bash
 ```
 This will resize the root partition mounted at `/` to the maximum
 size possible on the volume. In order to do so, the root partition
