@@ -11,8 +11,8 @@ echo -e "##### Getting information about root partition"
 root_part="$(findmnt / -o source -n)"
 root_dev="/dev/$(lsblk -no pkname "$root_part")"
 part_info="$(parted -m $root_dev unit B print)"
-part_number=$(echo "$part_info" | grep ext4 | awk -F: '{ print $1 }')
-part_start=$(echo "$part_info" | grep ext4 | awk -F: '{ print substr($2,0,length($2)-1) }')
+part_number=$(echo "$part_info" | grep -E "ext[234]" | awk -F: '{ print $1 }')
+part_start=$(echo "$part_info" | grep -E "ext[234]" | awk -F: '{ print substr($2,0,length($2)-1) }')
 last_part_number=$(echo "$part_info" | tail -n 1 | cut -f 1 -d:)
 
 if [ $last_part_number -ne $part_number ]; then
